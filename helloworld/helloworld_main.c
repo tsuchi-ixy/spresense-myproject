@@ -37,11 +37,7 @@
 
 #include "camera_fileutil.h"
 
-#ifdef CONFIG_EXAMPLES_CAMERA_OUTPUT_LCD
-#include <nuttx/nx/nx.h>
-#include <nuttx/nx/nxglib.h>
-#include "camera_bkgd.h"
-#endif
+
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -489,14 +485,7 @@ int main(int argc, FAR char *argv[])
 
   /* Initialize NX graphics subsystem to use LCD */
 
-#ifdef CONFIG_EXAMPLES_CAMERA_OUTPUT_LCD
-  ret = nximage_initialize();
-  if (ret < 0)
-    {
-      printf("camera_main: Failed to get NX handle: %d\n", errno);
-      return ERROR;
-    }
-#endif
+
 
   /* Select storage to save image files */
 
@@ -625,9 +614,6 @@ int main(int argc, FAR char *argv[])
       is_eternal = 1;
       printf("Start video this mode is eternal."
              " (Non stop, non save files.)\n");
-#ifndef CONFIG_EXAMPLES_CAMERA_OUTPUT_LCD
-      printf("This mode should be run with LCD display\n");
-#endif
     }
   else
     {
@@ -664,10 +650,7 @@ int main(int argc, FAR char *argv[])
                 goto exit_this_app;
               }
 
-#ifdef CONFIG_EXAMPLES_CAMERA_OUTPUT_LCD
-            nximage_draw((void *)v4l2_buf.m.userptr,
-                         VIDEO_HSIZE_QVGA, VIDEO_VSIZE_QVGA);
-#endif
+
 
             ret = release_camimage(v_fd, &v4l2_buf);
             if (ret != OK)
@@ -767,9 +750,7 @@ exit_without_cleaning_buffer:
 
 exit_without_cleaning_videodriver:
 
-#ifdef CONFIG_EXAMPLES_CAMERA_OUTPUT_LCD
-  nximage_finalize();
-#endif
+
 
   return ret;
 }
