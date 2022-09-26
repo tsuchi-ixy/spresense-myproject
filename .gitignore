@@ -1,0 +1,7 @@
+.vscode
+.deoend
+.built
+out/
+*/.depend
+*/Make.dep
+*/*.o
